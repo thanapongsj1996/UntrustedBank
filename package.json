@@ -1,0 +1,13 @@
+{
+  "name": "UntrustedBank",
+  "version": "1.0.0",
+  "description": "Defi project called Untrusted Bank",
+  "main": "index.js",
+  "author": "thanapong somjai",
+  "license": "MIT",
+  "devDependencies": {
+    "@chainsafe/truffle-plugin-abigen": "^0.0.2",
+    "@openzeppelin/contracts": "^4.4.2",
+    "ganache-cli": "^6.12.2"
+  }
+}
