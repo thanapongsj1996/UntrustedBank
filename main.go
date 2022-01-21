@@ -7,7 +7,9 @@ import (
 )
 
 func main() {
-	godotenv.Load(".env")
+	if err := godotenv.Load(".env"); err != nil {
+		panic("error while getting environment variables..")
+	}
 
 	config := consts.NewConfig()
 	if err := services.NewDeployer(config).Deploy(); err != nil {
