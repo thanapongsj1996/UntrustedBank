@@ -7,7 +7,7 @@ import (
 
 func main() {
 	config := consts.NewConfig()
-
-	deployer := services.NewDeployer(config)
-	deployer.Deploy()
+	if err := services.NewDeployer(config).Deploy(); err != nil {
+		panic("error while deploying..")
+	}
 }
