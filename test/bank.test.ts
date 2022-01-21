@@ -36,8 +36,22 @@ beforeEach(async () => {
 })
 
 describe('Test deposit and withdraw function', () => {
-    it('check total supply', async () => {
+    it('correct total supply', async () => {
         const total = await token.methods.totalSupply().call()
         expect(fromWei(total)).toEqual('1000')
+    })
+    it('can deposit and withdraw', async () => {
+        const actors = await testActors(web3)
+        const bankAddr = bank.options.address
+
+        // user deposit 200 token, check bank balance and user balance
+        const amount = toWei('200')
+        await token.methods.approve(bankAddr, amount).send(actors.user1Tx)
+        await bank.methods.deposit(amount).send(actors.user1Tx)
+        const balBank = await token.methods.balanceOf(bankAddr).call()
+        const balUser = await token.methods.balanceOf(actors.user1Addr).call()
+
+        expect(fromWei(balBank)).toEqual('200')
+        expect(fromWei(balUser)).toEqual('800')
     })
 })
