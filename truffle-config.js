@@ -78,6 +78,10 @@ module.exports = {
         // timeout: 100000
     },
 
+    plugins: [
+        "@chainsafe/truffle-plugin-abigen"
+    ],
+
     // Configure your compilers
     compilers: {
         solc: {
