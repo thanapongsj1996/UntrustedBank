@@ -70,7 +70,7 @@ func MyWallet(network string) (*hdwallet.Wallet, error) {
 
 	wallet, err := hdwallet.NewFromMnemonic(mnemonic)
 	if err != nil {
-		fmt.Errorf("error while getting wallet : ", err.Error())
+		fmt.Printf("error while getting wallet : %s\n", err.Error())
 		return nil, err
 	}
 

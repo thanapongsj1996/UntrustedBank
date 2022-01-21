@@ -25,7 +25,7 @@ func (svc *Deployer) Deploy() error {
 
 	client, err := consts.GetClient(network)
 	if err != nil {
-		fmt.Errorf("error while getting client : ", err.Error())
+		fmt.Printf("error while getting client : %s\n", err.Error())
 		return err
 	}
 

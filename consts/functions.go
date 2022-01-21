@@ -1,6 +1,8 @@
 package consts
 
-import "github.com/ethereum/go-ethereum/ethclient"
+import (
+	"github.com/ethereum/go-ethereum/ethclient"
+)
 
 func GetClient(network string) (*ethclient.Client, error) {
 	networkURL := ""
