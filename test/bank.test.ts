@@ -45,13 +45,21 @@ describe('Test deposit and withdraw function', () => {
         const bankAddr = bank.options.address
 
         // user deposit 200 token, check bank balance and user balance
-        const amount = toWei('200')
+        let amount = toWei('200')
         await token.methods.approve(bankAddr, amount).send(actors.user1Tx)
         await bank.methods.deposit(amount).send(actors.user1Tx)
-        const balBank = await token.methods.balanceOf(bankAddr).call()
-        const balUser = await token.methods.balanceOf(actors.user1Addr).call()
+        let balBank = await token.methods.balanceOf(bankAddr).call()
+        let balUser = await token.methods.balanceOf(actors.user1Addr).call()
 
         expect(fromWei(balBank)).toEqual('200')
         expect(fromWei(balUser)).toEqual('800')
+
+        amount = toWei('50')
+        await bank.methods.withdraw(amount).send(actors.user1Tx)
+        balBank = await token.methods.balanceOf(bankAddr).call()
+        balUser = await token.methods.balanceOf(actors.user1Addr).call()
+
+        expect(fromWei(balBank)).toEqual('150')
+        expect(fromWei(balUser)).toEqual('850')
     })
 })
