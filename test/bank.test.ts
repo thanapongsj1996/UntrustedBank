@@ -32,7 +32,7 @@ beforeEach(async () => {
 
     // mint 1000 token for user
     const amount = toWei('1000')
-    await token.methods.mint(actors.user1Addr, amount).send(actors.ownerTx)
+    await token.methods.mint(amount).send(actors.user1Tx)
 })
 
 describe('Test deposit and withdraw function', () => {
