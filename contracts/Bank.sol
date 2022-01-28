@@ -29,4 +29,10 @@ contract Bank is Ownable, ERC20 {
         _userBalance[msg.sender] -= amount;
         _token.transfer(msg.sender, amount);
     }
+
+    function checkUserBalance() public view returns (uint256) {
+        require(msg.sender != address(0), "can not check for zero address");
+
+        return _userBalance[msg.sender];
+    }
 }

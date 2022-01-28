@@ -33,12 +33,13 @@ beforeEach(async () => {
     // mint 1000 token for user
     const amount = toWei('1000')
     await token.methods.mint(amount).send(actors.user1Tx)
+    await token.methods.mint(amount).send(actors.user2Tx)
 })
 
 describe('Test deposit and withdraw function', () => {
     it('correct total supply', async () => {
         const total = await token.methods.totalSupply().call()
-        expect(fromWei(total)).toEqual('1000')
+        expect(fromWei(total)).toEqual('2000')
     })
     it('can deposit and withdraw', async () => {
         const actors = await testActors(web3)
@@ -50,8 +51,10 @@ describe('Test deposit and withdraw function', () => {
         await bank.methods.deposit(amount).send(actors.user1Tx)
         let balBank = await token.methods.balanceOf(bankAddr).call()
         let balUser = await token.methods.balanceOf(actors.user1Addr).call()
+        let balUserInBank = await bank.methods.checkUserBalance().call(actors.user1Tx)
 
         expect(fromWei(balBank)).toEqual('200')
+        expect(fromWei(balUserInBank)).toEqual('200')
         expect(fromWei(balUser)).toEqual('800')
 
         amount = toWei('50')
@@ -61,5 +64,16 @@ describe('Test deposit and withdraw function', () => {
 
         expect(fromWei(balBank)).toEqual('150')
         expect(fromWei(balUser)).toEqual('850')
+    })
+    it('can tranfer token from user to the other user', async () => {
+        const actors = await testActors(web3)
+
+        const amount = toWei('50')
+        await token.methods.transfer(actors.user2Addr, amount).send(actors.user1Tx)
+        const balUser1 = await token.methods.balanceOf(actors.user1Addr).call()
+        const balUser2 = await token.methods.balanceOf(actors.user2Addr).call()
+
+        expect(fromWei(balUser1)).toEqual('950')
+        expect(fromWei(balUser2)).toEqual('1050')
     })
 })

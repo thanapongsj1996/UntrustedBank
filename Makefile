@@ -24,6 +24,8 @@ gen-go-contract-binding:
 	./abigen --abi=abigenBindings/abi/Token.abi --bin=abigenBindings/bin/Token.bin --pkg token --out bindings/token/bindings.go
 	if [ ! -d bindings/bank ]; then mkdir bindings/bank ; fi
 	./abigen --abi=abigenBindings/abi/Bank.abi --bin=abigenBindings/bin/Bank.bin --pkg bank --out bindings/bank/bindings.go
+deploy-contract:
+	go run main.go
 test-contract:
 	yarn run jest --testTimeout=60000
 go-init:

@@ -7,6 +7,8 @@ export interface TestActors {
     ownerTx: Tx
     user1Addr: string
     user1Tx: Tx
+    user2Addr: string
+    user2Tx: Tx
 }
 
 export interface Tx {
@@ -20,6 +22,8 @@ export const testActors = async (web3: Web3): Promise<TestActors> => {
         ownerAddr: accounts[0],
         ownerTx: { from: accounts[0], gas: gasLimit },
         user1Addr: accounts[1],
-        user1Tx: { from: accounts[1], gas: gasLimit }
+        user1Tx: { from: accounts[1], gas: gasLimit },
+        user2Addr: accounts[2],
+        user2Tx: { from: accounts[2], gas: gasLimit }
     }
 }
