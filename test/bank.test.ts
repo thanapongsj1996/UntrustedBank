@@ -4,8 +4,8 @@ import { AbiItem } from 'web3-utils'
 import { beforeEach, describe, it } from '@jest/globals'
 import { Bank } from '../types/web3-v1-contracts/Bank'
 import BankContract from '../build/contracts/Bank.json'
-import { Token } from '../types/web3-v1-contracts/Token'
-import TokenContract from '../build/contracts/Token.json'
+import { TomToken } from '../types/web3-v1-contracts/TomToken'
+import TomTokenContract from '../build/contracts/TomToken.json'
 import { testActors } from '../utils/test_util'
 import { getWeb3, fromWei, toWei } from '../utils/util'
 
@@ -13,16 +13,16 @@ const ganacheOptions = {}
 const web3 = getWeb3(ganache.provider(ganacheOptions))
 
 let bank: Bank
-let token: Token
+let token: TomToken
 
 beforeEach(async () => {
     const actors = await testActors(web3)
 
     // deploy token contract
-    const tokenAbiItems: AbiItem[] = TokenContract.abi as AbiItem[]
-    const tokenByteCode: string = TokenContract.bytecode
-    token = new web3.eth.Contract(tokenAbiItems) as any as Token
-    token = await token.deploy({ data: tokenByteCode, arguments: [] }).send(actors.ownerTx) as any as Token
+    const tokenAbiItems: AbiItem[] = TomTokenContract.abi as AbiItem[]
+    const tokenByteCode: string = TomTokenContract.bytecode
+    token = new web3.eth.Contract(tokenAbiItems) as any as TomToken
+    token = await token.deploy({ data: tokenByteCode, arguments: [] }).send(actors.ownerTx) as any as TomToken
 
     // deploy bank contract
     const bankAbiItems: AbiItem[] = BankContract.abi as AbiItem[]

@@ -3,8 +3,11 @@ package services
 import (
 	"fmt"
 
-	"github.com/thanapongsj1996/untrustedbank/bindings/bank"
-	"github.com/thanapongsj1996/untrustedbank/bindings/token"
+	bank "github.com/thanapongsj1996/untrustedbank/bindings/bank"
+	jerryToken "github.com/thanapongsj1996/untrustedbank/bindings/jerry-token"
+	lpToken "github.com/thanapongsj1996/untrustedbank/bindings/lp-token"
+	pool "github.com/thanapongsj1996/untrustedbank/bindings/pool"
+	tomToken "github.com/thanapongsj1996/untrustedbank/bindings/tom-token"
 	"github.com/thanapongsj1996/untrustedbank/consts"
 	"github.com/thanapongsj1996/untrustedbank/utils"
 )
@@ -29,21 +32,38 @@ func (svc *Deployer) Deploy() error {
 		return err
 	}
 
-	tokenAddr, tokenTx, _, err := token.DeployToken(utils.MySendOpt(client, network), client)
+	tomTokenAddr, tomTokenTx, _, err := tomToken.DeployTomtoken(utils.MySendOpt(client, network), client)
+	if err != nil {
+		return err
+	}
+	jerryTokenAddr, jerryTokenTx, _, err := jerryToken.DeployJerrytoken(utils.MySendOpt(client, network), client)
+	if err != nil {
+		return err
+	}
+	lpTokenAddr, lpTokenTx, _, err := lpToken.DeployLptoken(utils.MySendOpt(client, network), client)
+	if err != nil {
+		return err
+	}
+	bankAddr, bankTx, _, err := bank.DeployBank(utils.MySendOpt(client, network), client, tomTokenAddr)
+	if err != nil {
+		return err
+	}
+	poolAddr, poolTx, _, err := pool.DeployPool(utils.MySendOpt(client, network), client, tomTokenAddr, jerryTokenAddr)
 	if err != nil {
 		return err
 	}
 
-	bankAddr, bankTx, _, err := bank.DeployBank(utils.MySendOpt(client, network), client, tokenAddr)
-	if err != nil {
-		return err
-	}
-
-	fmt.Printf("TOKEN_TX=%s\n", tokenTx.Hash().Hex())
+	fmt.Printf("TOM_TOKEN_TX=%s\n", tomTokenTx.Hash().Hex())
+	fmt.Printf("JERRY_TOKEN_TX=%s\n", jerryTokenTx.Hash().Hex())
+	fmt.Printf("LP_TOKEN_TX=%s\n", lpTokenTx.Hash().Hex())
 	fmt.Printf("BANK_TX=%s\n", bankTx.Hash().Hex())
+	fmt.Printf("POOL_TX=%s\n", poolTx.Hash().Hex())
 	fmt.Printf("-------------------\n")
-	fmt.Printf("TOKEN_ADDR=%s\n", tokenAddr.String())
+	fmt.Printf("TOM_TOKEN_ADDR=%s\n", tomTokenAddr.String())
+	fmt.Printf("JERRY_TOKEN_ADDR=%s\n", jerryTokenAddr.String())
+	fmt.Printf("LP_TOKEN_ADDR=%s\n", lpTokenAddr.String())
 	fmt.Printf("BANK_ADDR=%s\n", bankAddr.String())
+	fmt.Printf("POOL_ADDR=%s\n", poolAddr.String())
 
 	return nil
 }

@@ -20,10 +20,16 @@ gen-abi-binding:
 	truffle run abigen
 gen-go-contract-binding:
 	if [ ! -d bindings ]; then mkdir bindings ; fi
-	if [ ! -d bindings/token ]; then mkdir bindings/token ; fi
-	./abigen --abi=abigenBindings/abi/Token.abi --bin=abigenBindings/bin/Token.bin --pkg token --out bindings/token/bindings.go
+	if [ ! -d bindings/tom-token ]; then mkdir bindings/tom-token ; fi
+	./abigen --abi=abigenBindings/abi/TomToken.abi --bin=abigenBindings/bin/TomToken.bin --pkg tomtoken --out bindings/tom-token/bindings.go
+	if [ ! -d bindings/jerry-token ]; then mkdir bindings/jerry-token ; fi
+	./abigen --abi=abigenBindings/abi/JerryToken.abi --bin=abigenBindings/bin/JerryToken.bin --pkg jerrytoken --out bindings/jerry-token/bindings.go
+	if [ ! -d bindings/lp-token ]; then mkdir bindings/lp-token ; fi
+	./abigen --abi=abigenBindings/abi/LPToken.abi --bin=abigenBindings/bin/LPToken.bin --pkg lptoken --out bindings/lp-token/bindings.go
 	if [ ! -d bindings/bank ]; then mkdir bindings/bank ; fi
 	./abigen --abi=abigenBindings/abi/Bank.abi --bin=abigenBindings/bin/Bank.bin --pkg bank --out bindings/bank/bindings.go
+	if [ ! -d bindings/pool ]; then mkdir bindings/pool ; fi
+	./abigen --abi=abigenBindings/abi/Pool.abi --bin=abigenBindings/bin/Pool.bin --pkg pool --out bindings/pool/bindings.go
 deploy-contract:
 	go run main.go
 test-contract:
