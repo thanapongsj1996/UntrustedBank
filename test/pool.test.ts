@@ -91,7 +91,7 @@ describe('the pool', () => {
         // swap 10 tom -> 19.96 jerry
         const tomIn = toWei('10')
         const quotePrice = await pool.methods.getJerryAmountByTom(tomIn).call()
-        const jerryOut = parseInt(fromWei(quotePrice)) * 0.998
+        const jerryOut = parseFloat(fromWei(quotePrice)) * 0.998
         await tomToken.methods.mint(tomIn).send(actors.user1Tx)
         await tomToken.methods.approve(poolAddr, tomIn).send(actors.user1Tx)
         await pool.methods.swapTomforJerry(tomIn, toWei(`${jerryOut}`)).send(actors.user1Tx)
